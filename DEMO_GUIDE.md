@@ -5,6 +5,11 @@ A script for presenting CostQual-Router: what to run, in what order, and what to
 
 ## 0. Before you walk in
 
+**Close other heavy apps first** (extra browser windows, other IDEs, chat apps) -- Ollama shares
+your CPU/GPU with everything else running, and heavy background load can make model responses
+slow or, in one case we hit, genuinely garbled/incoherent (fixed by restarting Ollama -- see
+`README.md`'s Troubleshooting section). A quiet system gives a smoother live demo.
+
 Run the benchmark once ahead of time so you're not waiting on it live:
 
 ```bash

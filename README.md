@@ -132,6 +132,25 @@ Full numbers: `report.md`. Charts: `cost_comparison.png`, `latency_comparison.pn
 server under sustained load; `ollama_client.py` retries automatically, so a single slow call
 won't crash the whole run.
 
+## Troubleshooting: garbled or off-topic answers
+
+If a model's answers suddenly turn into incoherent, unrelated text (not just a bad answer, but
+text that looks like a completely different prompt), that's not a bug in this code -- it means the
+Ollama server's in-memory model state got corrupted, which we saw happen after a benchmark run
+that hit heavy, sustained system load (many other apps competing for CPU/GPU caused repeated
+request timeouts and retries back-to-back). The fix is to clear Ollama's loaded models and restart
+it:
+
+```bash
+ollama stop phi3:mini
+ollama stop qwen2.5:0.5b
+# then restart the Ollama app/service, or just re-run your script --
+# Ollama reloads the model fresh on the next request.
+```
+
+For a reliable benchmark run (and before a live demo), close other heavy applications (browsers
+with many tabs, IDEs, chat apps) first -- Ollama shares your CPU/GPU with everything else running.
+
 ## Sharing this project
 
 Do **not** zip/copy the `venv/` folder -- it's Windows/Python-version specific and huge. Copy
